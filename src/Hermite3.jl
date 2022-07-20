@@ -5,33 +5,36 @@ module Hermite3
          t^2/2  t      1.0    0.0
          t^3/6  t^2/2  t      1.0   ]
 
-M = [ 1.0  -0.0  -6.0   12.0
+M = [ 1.0   0.0  -6.0   12.0
       0.0   1.0  -4.0    6.0
       0.0   0.0   6.0  -12.0
       0.0   0.0  -2.0    6.0 ]
 
-function curve(P,p,Q,q,t)
-	A = hcat(P,p,Q,q)
-	return map( ψ->A*M*ψ, eachcol(Φ(t)) )
+# Uniform curves
+function curve(P0,Ṗ0,P1,Ṗ1,t)
+	C = hcat(P0,Ṗ0,P1,Ṗ1)
+	return map( ψ->C*M*ψ, eachcol(Φ(t)) )
 end
 
-function curve(P,p,Q,q,t,d::Int)
-	A = hcat(P,p,Q,q)
+function curve(P0,Ṗ0,P1,Ṗ1,t,d::Int)
+	C = hcat(P0,Ṗ0,P1,Ṗ1)
 	ψ = view(Φ(t),:,d+1)
-	return A*M*ψ
+	return C*M*ψ
 end
 
-function curve(P,p,Q,q,t,d)
-	A = hcat(P,p,Q,q)
+function curve(P0,Ṗ0,P1,Ṗ1,t,d)
+	C = hcat(P0,Ṗ0,P1,Ṗ1)
 	Ψ = view(Φ(t),:,d.+1)
-	return map( ψ->A*M*ψ, eachcol(Ψ) )
+	return map( ψ->C*M*ψ, eachcol(Ψ) )
 end
 
-normalize(t0,tf,t) = (t-t0)/(tf-t0)
+# Non-uniform curves
+normalize(ts,tf,t) = (t-ts)/(tf-ts)
 
-curve(P,p,Q,q,t0,tf,t) = curve(P,p,Q,q,normalize(t0,tf,t))
-curve(P,p,Q,q,t0,tf,t,d) = curve(P,p,Q,q,normalize(t0,tf,t),d)
+curve(Ps,Ṗs,Pf,Ṗf,ts,tf,t) = curve(Ps,Ṗs,Pf,Ṗf,normalize(ts,tf,t))
+curve(Ps,Ṗs,Pf,Ṗf,ts,tf,t,d) = curve(Ps,Ṗs,Pf,Ṗf,normalize(ts,tf,t),d)
 
+# Splines
 function segments(Pk::Vector,pk::Vector,tk::Vector,t::Vector)
 	@assert length(Pk) == length(pk)
 	for i in 2:length(tk)
