@@ -7,8 +7,8 @@ path = consequent_polynomial_paths(X,T)
 sdp,ṡdp,s̈dp = [ d for d in eachrow(mapreduce(t -> path(t), hcat, ts)) ]
 
 using Hermite3
-Pk = [ [0], [0], [pi/4], [-pi/4], [0] ]
-Ṗk = [ [0], [0], [0],     [0],    [0] ]
+Pk = [ 0, 0, pi/4, -pi/4, 0 ]
+Ṗk = [ 0, 0, 0,     0,    0 ]
 sdh = mapreduce( t->Hermite3.spline(Pk,Ṗk,T,t,0), vcat, ts)
 ṡdh = mapreduce( t->Hermite3.spline(Pk,Ṗk,T,t,1), vcat, ts)
 s̈dh = mapreduce( t->Hermite3.spline(Pk,Ṗk,T,t,2), vcat, ts)

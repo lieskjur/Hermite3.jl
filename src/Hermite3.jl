@@ -65,13 +65,7 @@ function segments(Pk::Vector,Ṗk::Vector,tk::Vector,t::Real)
 	@assert length(Pk) == length(Ṗk)
 	for i in 2:length(tk)
 		if tk[i] >= t
-			P0 = Pk[i-1]
-			Ṗ0 = Ṗk[i-1]
-			P1 = Pk[i]
-			Ṗ1 = Ṗk[i]
-			t0 = tk[i-1]
-			t1 = tk[i]
-			return P0,Ṗ0,P1,Ṗ1,t0,t1,t
+			return Pk[i-1], Ṗk[i-1], Pk[i], Ṗk[i], tk[i-1], tk[i], t
 		end
 	end
 end
