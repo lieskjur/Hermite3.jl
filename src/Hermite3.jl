@@ -1,18 +1,18 @@
 module Hermite3
 
+M = [ 1.0   0.0  -6.0   12.0
+      0.0   1.0  -4.0    6.0
+      0.0   0.0   6.0  -12.0
+      0.0   0.0  -2.0    6.0 ]
+
+# M = inv( hcat( Φ(0)[:,1:2], Φ(1)[:,1:2] ))
+
 # Uniform curves
 
 Φ(t) = [ 1.0    0.0    0.0    0.0
          t      1.0    0.0    0.0
          t^2/2  t      1.0    0.0
          t^3/6  t^2/2  t      1.0 ]
-
-# M = inv( hcat( Φ(0)[:,1:2], Φ(1)[:,1:2] ))
-         
-M = [ 1.0   0.0  -6.0   12.0
-      0.0   1.0  -4.0    6.0
-      0.0   0.0   6.0  -12.0
-      0.0   0.0  -2.0    6.0 ]
 
 function curve(P0,Ṗ0,P1,Ṗ1,t)
 	C = hcat(P0,Ṗ0,P1,Ṗ1)
@@ -50,7 +50,7 @@ end
 function curve(P0,Ṗ0,P1,Ṗ1,t0,t1,t,d::Int)
 	Δt = t1-t0; τ = t-t0
 	C = hcat(P0,Ṗ0,P1,Ṗ1)
-	return ψ->C*D(Δt)*M*view(Ψ(Δt,τ),:,d.+1)
+	return C*D(Δt)*M*view(Ψ(Δt,τ),:,d.+1)
 end
 
 function curve(P0,Ṗ0,P1,Ṗ1,t0,t1,t,d)

@@ -1,6 +1,5 @@
 using Hermite3
 using Plots
-include("DoublePlot.jl")
 
 Pk = [ [0,0], [4,0], [0,3], [0,0] ]
 Ṗk = [ zeros(2) for i in 1:4 ]
@@ -10,7 +9,7 @@ Hermite3.spline(Pk,Ṗk,tk,1)
 Hermite3.spline(Pk,Ṗk,tk,1,0)
 Hermite3.spline(Pk,Ṗk,tk,1,0:2)
 
-ts = tk[1]:0.005:tk[end]
+ts = range(tk[1],tk[end],101)
 xs = mapreduce( t->Hermite3.spline(Pk,Ṗk,tk,t,0), hcat, ts)
 ẋs = mapreduce( t->Hermite3.spline(Pk,Ṗk,tk,t,1), hcat, ts)
 ẍs = mapreduce( t->Hermite3.spline(Pk,Ṗk,tk,t,2), hcat, ts)
