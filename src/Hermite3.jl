@@ -35,21 +35,21 @@ curve(Ps,Ṗs,Pf,Ṗf,ts,tf,t) = curve(Ps,Ṗs,Pf,Ṗf,normalize(ts,tf,t))
 curve(Ps,Ṗs,Pf,Ṗf,ts,tf,t,d) = curve(Ps,Ṗs,Pf,Ṗf,normalize(ts,tf,t),d)
 
 # Splines
-function segments(Pk::Vector,pk::Vector,tk::Vector,t::Vector)
-	@assert length(Pk) == length(pk)
+function segments(Pk::Vector,Ṗk::Vector,tk::Vector,t::Real)
+	@assert length(Pk) == length(Ṗk)
 	for i in 2:length(tk)
 		if tk[i] >= t
 			t = normalize(tk[i-1],tk[i],t)
-			P0 = Pk[i-1]
-			p0 = pk[i-1]
+			Ps = Pk[i-1]
+			Ṗs = Ṗk[i-1]
 			Pf = Pk[i]
-			pf = pk[i]
-			return P0,p0,Pf,pf,t
+			Ṗf = Ṗk[i]
+			return Ps,Ṗs,Pf,Ṗf,t
 		end
 	end
 end
 
-spline(Pk,pk,tk,t) = curve(segments(Pk,pk,tk,t)...)
-spline(Pk,pk,tk,t,d) = curve(segments(Pk,pk,tk,t)...,d)
+spline(Pk,Ṗk,tk,t) = curve(segments(Pk,Ṗk,tk,t)...)
+spline(Pk,Ṗk,tk,t,d) = curve(segments(Pk,Ṗk,tk,t)...,d)
 
 end

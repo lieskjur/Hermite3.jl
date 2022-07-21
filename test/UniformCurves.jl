@@ -1,17 +1,26 @@
 using Hermite3
 using Plots
 include("DoublePlot.jl")
-P = [0,0]
-Q = [1,0]
-Ṗ = [1,2]
-Q̇ = [1,2]
+
+P0 = [0,0]
+P1 = [1,0]
+Ṗ0 = [1,2]
+Ṗ1 = [1,2]
 
 t = .5
-Hermit3.curve(P,Ṗ,Q,Q̇,t)
-Hermit3.curve(P,Ṗ,Q,Q̇,t,0)
-Hermit3.curve(P,Ṗ,Q,Q̇,t,0:2)
+Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t)
+Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t,0)
+Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t,0:2)
 
 ts = 0:0.01:1
-xs = mapreduce( t->Hermit3.curve(P,Ṗ,Q,Q̇,t,0), hcat, ts)
-plt = double_plot(ts,xs)
+xs = mapreduce( t->Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t,0), hcat, ts)
+ẋs = mapreduce( t->Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t,1), hcat, ts)
+ẍs = mapreduce( t->Hermite3.curve(P0,Ṗ0,P1,Ṗ1,t,2), hcat, ts)
+
+plt = plot(xlabel="t")
+for (i,s) in enumerate(["x","y"])
+	plot!(plt,ts,xs[i,:],label=s,color=0+i)
+	plot!(plt,ts,ẋs[i,:],label=s*"̇",color=2+i)
+	plot!(plt,ts,ẍs[i,:]*.1,label=s*"̈",color=4+i)
+end
 display(plt)
