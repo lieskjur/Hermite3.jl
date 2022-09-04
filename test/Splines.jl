@@ -16,12 +16,14 @@ ẍs = mapreduce( t->Hermite3.spline(Pk,Ṗk,tk,t,2), hcat, ts)
 
 plt_xy = plot(xlabel="x(t)",ylabel="y(t)",legend=:none)
 plot!(plt_xy,xs[1,:],xs[2,:],aspect_ratio=:equal)
-display(plt_tp)
+display(plt_xy)
+# savefig(plt_xy,"cubic_spline_xy.svg")
 
 plt_tP = plot(xlabel="t")
 for (i,s) in enumerate(["x","y"])
 	plot!(plt_tP,ts,xs[i,:],label=s*"(t)",color=0+i)
 	plot!(plt_tP,ts,ẋs[i,:],label=s*"̇(t)",color=2+i)
-	plot!(plt_tP,ts,ẍs[i,:],label=s*"̈(t)",color=4+i)
+	# plot!(plt_tP,ts,ẍs[i,:],label=s*"̈(t)",color=4+i)
 end
 display(plt_tP)
+savefig(plt_tP,"cubic_spline_tP.svg")
