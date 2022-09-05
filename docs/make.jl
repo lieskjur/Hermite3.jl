@@ -1,4 +1,4 @@
-using Documenter, MechatronickeSystemy
+using Documenter, Hermite3
 makedocs(
     sitename="Hermite3"
     )
