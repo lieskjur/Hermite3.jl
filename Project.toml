@@ -2,3 +2,6 @@ name = "Hermite3"
 uuid = "3be36a24-202f-4f00-b4d6-dea5b04dfb0f"
 authors = ["WJvg82y6W6LAqXcJ <jVx7V9td>"]
 version = "0.1.0"
+
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
